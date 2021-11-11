@@ -24,11 +24,14 @@ async function run() {
     // POST new register user API
     app.post("/register", async (req, res) => {
       const newUser = req.body;
+      console.log(newUser);
       const result = await userCollection.insertOne(newUser);
       res.json(result);
     });
+
     app.get("/register/:email", async (req, res) => {
       const email = req.params.email;
+
       const query = { email: email };
       const cursor = userCollection.find(query);
       const result = await cursor.toArray();
@@ -74,7 +77,6 @@ async function run() {
     app.put("/orders/:id", async (req, res) => {
       const id = req.params.id;
       const updateOrder = req.body;
-
       const filter = { _id: ObjectId(id) };
       const options = { upsert: true };
       const updateDoc = {
